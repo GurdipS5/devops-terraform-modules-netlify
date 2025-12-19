@@ -1,0 +1,90 @@
+version: 1
+
+language: terraform
+
+reviews:
+  profile: assertive        # actionable, not chatty
+  high_level_summary: true
+  auto_review:
+    enabled: true
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+
+path_filters:
+  include:
+    - "**/*.tf"
+    - "**/*.tfvars"
+    - "**/*.tfvars.json"
+    - "**/*.hcl"
+  exclude:
+    - ".terraform/**"
+    - "**/.terraform/**"
+    - "**/*.lock.hcl"
+    - "**/terraform.tfstate*"
+    - "**/vendor/**"
+
+knowledge:
+  enable: true
+  sources:
+    - terraform
+    - cloud-security
+    - infrastructure-as-code
+    - kubernetes
+    - azure
+    - aws
+    - gcp
+
+rules:
+  # === Terraform correctness ===
+  - name: Validate provider & version constraints
+    description: >
+      Ensure required_version and required_providers
+      are pinned with compatible version constraints.
+    severity: high
+
+  - name: Environment safety
+    description: >
+      Flag destructive changes in production environments
+      (e.g. force_destroy, prevent_destroy disabled).
+    severity: critical
+
+  - name: Variable hygiene
+    description: >
+      Ensure variables have type, description, and
+      sensible defaults only when safe.
+    severity: medium
+
+  - name: Outputs sensitivity
+    description: >
+      Ensure outputs exposing secrets are marked sensitive = true.
+    severity: high
+
+  - name: State & backend safety
+    description: >
+      Warn if remote backend encryption, locking,
+      or state isolation is missing.
+    severity: critical
+
+  # === Security ===
+  - name: Secret exposure
+    description: >
+      Flag hardcoded secrets in Terraform variables,
+      locals, and resource definitions.
+    severity: critical
+
+  - name: IAM / RBAC blast radius
+    description: >
+      Detect overly broad IAM roles (e.g. Owner, Contributor, *:*).
+    severity: high
+
+  # === Maintainability ===
+  - name: Module design
+    description: >
+      Encourage small, reusable modules with clear inputs/outputs.
+    severity: low
+
+  - name: Naming consistency
+    description: >
+      Enforce consistent naming across resources and modules.
+    severity: low
