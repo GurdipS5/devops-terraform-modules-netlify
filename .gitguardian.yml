@@ -1,0 +1,30 @@
+version: 2
+
+secret:
+  ignored-paths:
+    # Terraform generated files
+    - ".terraform/**"
+    - "**/.terraform/**"
+    - "**/*.lock.hcl"
+
+    # State files (should never be committed, but avoids noise)
+    - "**/terraform.tfstate"
+    - "**/terraform.tfstate.backup"
+
+    # CI artefacts
+    - "**/node_modules/**"
+    - "**/vendor/**"
+
+  ignored-secrets:
+    # Common non-secret Terraform placeholders
+    - "example"
+    - "example-value"
+    - "changeme"
+    - "dummy"
+    - "not-a-secret"
+    - "password"
+    - "my-secret"
+
+  # Optional: ignore specific detectors if they are noisy
+  ignored-detectors:
+    # - Generic Password
