@@ -1,4 +1,4 @@
-# Terraform Netlify Module
+# devops-terraform-modules-netlify
 
 ![Terraform](https://img.shields.io/badge/Terraform-%235835CC?logo=terraform&logoColor=white)
 ![Netlify](https://img.shields.io/badge/Netlify-%2300C7B7?logo=netlify&logoColor=white)
